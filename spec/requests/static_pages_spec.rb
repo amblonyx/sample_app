@@ -22,6 +22,19 @@ describe "Static pages" do
 				page.should have_selector("li##{item.id}", text: item.content) 
 			end
 		end
+		describe "micropost delete links" do
+			describe "own microposts" do
+				it { should have_link("delete", href: micropost_path(user.feed.first))  }
+			end
+			describe "other people's microposts" do
+				let(:wrong_user) { FactoryGirl.create(:user) }
+				before do
+					FactoryGirl.create(:micropost, user: wrong_user, content: "Lorem ipsum") 
+				end
+				it { should_not have_link("delete", href: micropost_path(wrong_user.feed.first))  }
+			end
+		end
+
 	end
 	
   end
