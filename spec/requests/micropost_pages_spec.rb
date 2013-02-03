@@ -25,7 +25,7 @@ describe "Micropost pages" do
 	end
 	
 	describe "pagination" do
-		before(:all) { 30.times { FactoryGirl.create(:micropost, user: user) } }
+		before(:all) { 31.times { FactoryGirl.create(:micropost, user: user) } }
 		after(:all) { user.feed.delete_all }
 		
 		before { visit root_path }

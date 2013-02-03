@@ -1,6 +1,12 @@
 namespace :db do
 	desc "Fill database with sample data"
 	task populate: :environment do
+		make_users
+		make_microposts
+		make_relationships
+	end
+	
+	def make_users
 		# Create an admin user
 		admin = User.create!(	name: "Example User",
 						email: "example@railstutorial.org",
@@ -18,6 +24,9 @@ namespace :db do
 							password: password,
 							password_confirmation: password)
 		end
+	end
+	
+	def make_microposts
 		
 		# Create 50 microposts for the first 6 users
 		users = User.all(limit: 6)
@@ -26,4 +35,14 @@ namespace :db do
 			users.each { |user| user.microposts.create!(content: content) }
 		end
 	end
+	
+	def make_relationships
+		users = User.all
+		user = users.first
+		followed_users = users[2..50]
+		followers = users[3..40]
+		followed_users.each { |followed| user.follow!(followed) }
+		followers.each { |follower| follower.follow!(user) }
+	end
+	
 end
